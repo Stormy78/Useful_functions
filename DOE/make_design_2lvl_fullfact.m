@@ -27,5 +27,5 @@ function D = make_design_2lvl_fullfact(varNames, lowLevels, highLevels, outFile)
     end
 
     % Write design to file (no headers)
-    writematrix(D, outFile, 'Delimiter', 'tab');  % change delimiter if needed
+    writematrix(D, outFile);  % change delimiter if needed
 end
