@@ -35,7 +35,7 @@ opts.VariableTypes = ["double", "double", "double", "double", "double", "double"
 
 % Specify file level properties
 opts.ExtraColumnsRule = "ignore";
-opts.EmptyLineRule = "read";
+opts.EmptyLineRule = "skip";
 
 % Import the data
 Argon_NIST_sat = readtable(filename, opts);
