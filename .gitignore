@@ -2,3 +2,5 @@ Vibrations/output.txt
 *.asv
 lastLocation.txt
 *.mat
+*.slxc
+CREO/slprj/
