@@ -4,8 +4,12 @@ lastLocation.txt
 *.mat
 *.slxc
 CREO/slprj/
+<<<<<<< HEAD
 RecursiveAlgorithms/KalmanFilter/slprj/
 RecursiveAlgorithms/How to Use a Kalman Filter in Simulink/Kalman_Filter_Simulink_Example.slx.r2017b
 RecursiveAlgorithms/How to Use a Kalman Filter in Simulink/Kalman_Filter_Simulink_Example.slx.r2022b
 RecursiveAlgorithms/How to Use a Kalman Filter in Simulink/slprj/
 RecursiveAlgorithms/Plane Following Example/slprj/
+=======
+SimScape_Libs/TestBenches/slprj/
+>>>>>>> 6b9c95d72299235ef2338544b457a6291e7f6491
