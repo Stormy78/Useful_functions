@@ -6,7 +6,7 @@ function [timeSignal, FitErrProc] = psd2time(PSDinput, timeSignalDurationSec, ma
 % timeSignalDurationSec - required duration [sec] of time signal
 
 
-switch nargin
+switch nargin 
 
     case [1,0]
         error('Not Enough Input Variables')
