@@ -1,0 +1,72 @@
+component PCMThermalMass
+% PCM Thermal Mass
+% This block models a lumped thermal mass made of a phase-change material
+% (PCM) - e.g. a paraffin wax or salt hydrate - using the "apparent heat
+% capacity" method. The effective specific heat capacity is the sum of
+% (1) a smooth blend between the solid- and liquid-phase specific heats
+% and (2) a bell-shaped peak centered on the melting point whose area
+% equals the latent heat of fusion. A single lumped thermal mass then
+% reproduces the characteristic PCM signature: a long, nearly-flat
+% temperature plateau while heat is absorbed (melting) or released
+% (solidifying) near the melting point, with ordinary sensible-heat
+% behavior before and after the phase change.
+%
+% Connect port A to any Simscape Foundation Thermal network element
+% (Heat Flow Source, Convective Heat Transfer, Conductor, another
+% Thermal Mass, ...). The physical signal output "phase" reports the
+% instantaneous melt fraction (0 = fully solid, 1 = fully liquid), useful
+% for monitoring and verifying phase-change behavior.
+%
+% All numeric parameters below are placeholders - replace them with
+% values from your PCM's datasheet.
+
+  nodes
+    A = foundation.thermal.thermal; % A:left
+  end
+
+  outputs
+    phase = {0, '1'}; % phase:right
+  end
+
+  parameters
+    mass      = {1,     'kg'      };  % Mass
+    cp_solid  = {2000,  'J/(kg*K)'};  % Specific heat - solid phase
+    cp_liquid = {2500,  'J/(kg*K)'};  % Specific heat - liquid phase
+    L_fusion  = {2e5,   'J/kg'    };  % Latent heat of fusion
+    T_melt    = {300,   'K'       };  % Nominal melting temperature
+    T_range   = {1,     'K'       };  % Melting-zone half-width (transition sharpness)
+    T_init    = {293.15,'K'       };  % Initial temperature
+  end
+
+  variables
+    T      = {value = T_init,   priority = priority.high}; % Temperature
+    cp_eff = {value = cp_solid, priority = priority.none}; % Effective (apparent) specific heat capacity
+    Q      = {0, 'W'};                                     % Heat flow rate into the mass
+  end
+
+  branches
+    Q : A.Q -> *;   % single-port lumped element: heat flow terminates in the mass
+  end
+
+  equations
+    assert(mass > 0)
+    assert(cp_solid > 0)
+    assert(cp_liquid > 0)
+    assert(L_fusion >= 0)
+    assert(T_range > 0)
+
+    let
+      x     = (T - T_melt)/T_range;
+      s     = tanh(x);
+      blend = 0.5*(1 + s);   % 0 (solid) -> 1 (liquid)
+    in
+      cp_eff == cp_solid + (cp_liquid - cp_solid)*blend ...
+                + (L_fusion/(2*T_range))*(1 - s^2);      % base cp + apparent latent-heat peak
+      phase  == blend;
+    end
+
+    A.T == T;
+    mass*cp_eff*T.der == Q;
+  end
+
+end
