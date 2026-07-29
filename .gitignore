@@ -18,3 +18,5 @@ Vibrations/slprj/
 DSP/FFT/slprj/
 *.autosave
 slprj/
+Missile_Gudance_Libs/TestBench/table_acc.txt
+Missile_Gudance_Libs/TestBench/torque_table.txt

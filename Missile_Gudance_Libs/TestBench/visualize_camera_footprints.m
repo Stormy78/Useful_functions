@@ -1,4 +1,4 @@
-function visualize_camera_footprints(data, img_width_px, img_height_px, focal_length_mm, sensor_width_mm, debug)
+function visualize_camera_footprints(data, img_width_px, img_height_px, focal_length_mm, pixel_pitch_um, debug)
 % VISUALIZE_CAMERA_FOOTPRINTS  Project airborne camera images onto ground (2D NED)
 %
 % CAMERA FRAME:
@@ -23,15 +23,16 @@ function visualize_camera_footprints(data, img_width_px, img_height_px, focal_le
 %   visualize_camera_footprints(data)
 %   visualize_camera_footprints(data, 4000, 3000, 35, 35.9, true)
 
-    if nargin < 2, img_width_px    = 4000;  end
-    if nargin < 3, img_height_px   = 3000;  end
+    if nargin < 2, img_width_px    = 1024;  end
+    if nargin < 3, img_height_px   = 1280;  end
     if nargin < 4, focal_length_mm = 35;    end
-    if nargin < 5, sensor_width_mm = 35.9;  end
+    if nargin < 5, pixel_pitch_um = 5.0;  end
     if nargin < 6, debug           = false; end
 
     % --- Sensor geometry (physical units, mm) ---
-    pixel_pitch_mm   = sensor_width_mm / img_width_px;
+    pixel_pitch_mm = pixel_pitch_um / 1000;
     sensor_height_mm = pixel_pitch_mm  * img_height_px;
+    sensor_width_mm = pixel_pitch_mm * img_width_px;
     hw_mm            = sensor_width_mm  / 2;
     hh_mm            = sensor_height_mm / 2;
 
